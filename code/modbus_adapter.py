@@ -187,7 +187,7 @@ class ModbusAdapter(Observable):
             else:
                 self.auto_sampling_add(data)
 
-    # 时间片最小100ms，所以只支持100的倍数的时间设置，其他值将会自动落在最近的时间槽内
+    # The minimum time slice is 100ms, so only multiples of 100 are supported. Other values ​​will automatically fall into the nearest time slot.
     def auto_sampling_service(self):
         while True:
             for slot in self.__scan_slot:

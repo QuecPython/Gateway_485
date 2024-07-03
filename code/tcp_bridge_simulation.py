@@ -1,6 +1,5 @@
 from usr.modules.common import CloudObservable
 
-# 导入usocket模块
 import usocket
 import utime
 import _thread
@@ -18,7 +17,7 @@ class TcpBridge(CloudObservable):
         self.status = None
         self.sockaddr = None
 
-        # 处理来自服务器的下行数据
+    # Processing downlink data from the server
     def __server_msg_resolve(self, data):
         log.info('recv: ' + data.decode())
         self.notifyObservers(self, *("query", {data}))
@@ -57,15 +56,15 @@ class TcpBridge(CloudObservable):
         """Cloud init"""
         if self.get_status():
             return True
-        # 创建一个socket实例
+        # Create a socket instance
         self.__sock = usocket.socket(usocket.AF_INET, usocket.SOCK_STREAM)
-        # 增加端口复用
+        # Increase port reuse
         self.__sock.setsockopt(usocket.SOL_SOCKET, usocket.SO_REUSEADDR, 1)
-        # 解析域名
+        # DNS domain resolve
         addr = usocket.getaddrinfo(TCP_SERVER_SIMULATION, TCP_SERVER_PORT_SIMULATION)
         self.sockaddr = addr[0][-1]
         log.info('server connect ' + str(self.sockaddr))
-        # 建立连接
+        # establish connection
         self.__sock.connect(self.sockaddr)
         self.__async_wait()
         self.update_connect_status(True)

@@ -77,16 +77,16 @@ if __name__ == "__main__":
     server = Server()
     Gateway()
 
-    '''下发消息非透传
-    message_id: 消息id
-    nodeData: 数据内容
-        passthrough： 透传
-        channel:  通道号
-        slave：   从设备地址
-        function: 功能码
-        start_address: 起始寄存器地址
-        quantity: 读取寄存器数量
-        scan_rate: 自动采样频率, 100的倍数,单位ms
+    '''Sending messages by non-passthrough
+    message_id: Message ID
+    nodeData: node Data content
+        passthrough: passthrough
+        channel:  Channel Number
+        slave:   Slave Device Address
+        function: function code
+        start_address: Starting register address
+        quantity: Read register quantity
+        scan_rate: Automatic sampling frequency, multiples of 100, unit ms
     '''
     example_data1 = '{ ' \
                     '"message_id": 100,' \
@@ -101,20 +101,20 @@ if __name__ == "__main__":
                     '}' \
                     '}'
 
-    '''下发消息透传
-    message_id: 消息id
-    nodeData: 数据内容
-        passthrough： 透传
-        channel:  通道号
-        data：   base64编码数据
-        scan_rate: 自动采样频率,单位ms
+    '''Sending messages by passthrough
+    message_id: Message ID
+    nodeData: node Data content
+        passthrough: passthrough
+        channel:  Channel Number
+        data:   base64 encoded data
+        scan_rate: Automatic sampling frequency, multiples of 100, unit ms
     '''
     base64_value = base64.encodebytes(b'\x01\x03\x00\x02\x00\x03\xa4\x0b')
     base64_value_str = base64_value.decode().strip('\n')
     example_data2 = "{\"message_id\": 101,\"nodeData\": {\"passthrough\": 1,\"channel\": 0,\"data\": \"" + \
                     base64_value_str + "\",\"scan_rate\": 0}}"
 
-    # 读取设备保持寄存器值
+    # Read device holding register value
     server.send(example_data1)
     utime.sleep(1)
     server.send(example_data2)
